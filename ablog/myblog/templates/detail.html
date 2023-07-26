@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{post.title_tag}}  
+{% endblock %}
+
+
+{% block content %}
+<h1>{{post.title}}</h1>
+<small>
+    {{post.author.first_name}}
+    {{post.author.last_name}}<br/>
+    {{post.post_date}}<br/><br/>
+    {{post.body|safe}}
+</small>
+<br/>
+<hr>
+
+{% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
+    <a href="{% url 'update_post' post.pk %}" class="btn btn-primary">Edit</a>
+    <a href="{% url 'delete_post' post.pk %}" class="btn btn-primary">Delete</a>
+    {% endif %}
+{% endif %}
+
+<a href="{% url 'home' %}" class="btn btn-success">Back</a>
+<br/><br/>
+<hr>
+<form action="{% url 'like_post' post.pk %}" method='POST'>
+    {% csrf_token %}
+
+    {% if user.is_authenticated %}
+        {% if liked %}
+            <button type='submit',name='post_id', value='{{post.id}}', class='btn btn-danger btn-sm'>UnLike</button> 
+        
+        {% else %}
+            <button type='submit',name='post_id', value='{{post.id}}', class='btn btn-primary btn-sm'>Like</button>
+        {% endif %}
+    {% else %}
+         <a class="nav-link" href="{% url 'login'%}">Qeydiyyatdan kecmemisiniz</a> 
+    {% endif %}
+    {{total_likes}} Likes
+</form>
+
+
+
+
+
+{% endblock %}

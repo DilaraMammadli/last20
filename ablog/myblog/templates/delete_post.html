@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}
+    Delete
+{% endblock %}
+{% block content %}
+
+
+{% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
+    <h1>Delete Post</h1>
+    <h3>Delete: {{post.title}}</h3>
+    <div class="mb-3">
+        <form method="POST">
+            {% csrf_token %}
+            {% comment %} {{form.as_p}} {% endcomment %}
+            <strong>Are you sure?</strong><br/>
+            <button class="btn btn-danger">Delete</button>
+
+        </form>
+    </div>
+    {% else %}
+        bu saytda deyisiklik ede bilmezsiniz!
+    {% endif %}
+{% else %}
+    You're not allowed here (Qeydiyyatdan kecmemisiniz)!
+{% endif %}
+
+{% endblock %}

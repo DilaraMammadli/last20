@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}
+    Create new post 
+{% endblock %}
+{% block content %}
+
+{% if user.is_authenticated %}
+<h1>Add Post...</h1>
+<div class="mb-3">
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="btn btn-danger">Post</button>
+
+    </form>
+
+</div>
+<script>
+    var name = '{{user.username}}';
+    document.getElementById('elder').value = name;
+</script>
+
+{% else %}
+    You're not allowed here (Qeydiyyatdan kecmemisiniz)!
+{% endif %}
+
+
+{% endblock %}

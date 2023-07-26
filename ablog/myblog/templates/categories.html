@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{cats}}</h1>
+
+{% if category_posts %}
+  <ul>
+    {% for post in category_posts %}
+        <li>
+          <a href="{% url 'article-detail' post.pk %}">{{post.title}}</a>
+          <a href="{% url 'category' post.category|slugify %}">{{post.category}}</a>
+          {{post.author.first_name}}
+          {{post.author.last_name}}
+          {{post.body|slice:":200"|safe}} -- {{post.post_date}}
+
+
+          {% if user.is_authenticated %}
+          <a href="{% url 'update_post' post.pk %}" class="btn btn-primary">Edit</a>
+          <a href="{% url 'delete_post' post.pk %}" class="btn btn-primary">Delete</a>
+          {% endif %}
+
+
+        </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <h2>Sorry this page is not</h2>
+{% endif %}
+
+{% endblock %}
+
+
